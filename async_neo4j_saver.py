@@ -117,8 +117,9 @@ class AsyncNeo4jSaver(BaseCheckpointSaver):
             with self._get_session() as session:
                 query = """MATCH(c:Checkpoint {thread_id: $thread_id, checkpoint_ns: $checkpoint_ns})
                 RETURN c.checkpoint AS checkpoint_json, c.metadata AS metadata_json,
-                       c.parent_checkpoint_id AS parent_id, c.timestamp AS timestamp
+                       c.timestamp AS timestamp
                 ORDER BY c.timestamp DESC LIMIT 1"""
+                #c.parent_checkpoint_id AS parent_id,
                 result = session.run(query, thread_id=thread_id, checkpoint_ns=checkpoint_ns)
                 record = result.single()
                 if not record:
