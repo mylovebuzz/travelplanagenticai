@@ -5,11 +5,12 @@ from langchain_core.prompts import PromptTemplate
 from langchain_ollama import ChatOllama
 from pydantic import BaseModel, Field
 
+# generate wrong cypher like RETURN relationships(a)-[r:CONNECTED_BY]->(b) 
 class KnowledgeQueryInput(BaseModel):
     user_query: str = Field(description="关于旅游景点路线、交通方式、距离、时间等的自然语言问>题，例如：'从故宫到颐和园怎么走？'")
 
 graph = Neo4jGraph(url="bolt://192.168.66.88:7687", username="neo4j", password="your_password", database="neo4j")
-llm = ChatOllama(model="qwen2.5:7b", temperature=0.3, base_url="http://172.18.85.196:6666")
+llm = ChatOllama(model="qwen2.5:7b", temperature=0.3, base_url="http://192.168.66.88:6666")
 print("✅ qwen2.5:7b模型 for Neo4j MCP tool 初始化成功")
 
 CYPHER_GENERATION_TEMPLATE = """任务：根据用户问题生成 Neo4j Cypher 查询语句
